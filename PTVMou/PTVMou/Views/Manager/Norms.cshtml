@@ -1,0 +1,74 @@
+﻿@model IEnumerable<PTVMou.Models.NormsViewModel>
+
+@{
+    ViewData["Title"] = "Norms";
+}
+
+<h2>Norms</h2>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th width="50">
+                #
+            </th>
+            <th width="50">
+                Наименование
+            </th>
+            <th width="50">
+                Единица измерения
+            </th>
+            <th width="50">
+               Нормы по БР/резерв
+            </th>
+            <th width="50">
+                Нормы по складу
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.OrderBy(x => x.PTV.PTVId))
+        {
+        <tr>
+            <td>
+                @item.PTV.PTVId
+            </td>
+            <td>
+                @item.PTV.Name
+            </td>
+            <td>
+                @item.PTV.Measure
+            </td>
+            <td>
+                <input id="txtNormsId-@item.PTV.PTVId" style="width:35px;" type="text" value="@item.NormCount" />
+            </td>
+            <td>
+                <input id="txtNormsWarehouseId-@item.PTV.PTVId" style="width:35px;" type="text" value="@item.WarehouseCount" />
+            </td>
+            <td>
+                <input type="button" onclick="takeValue(@item.PTV.PTVId)" class="btn-success" value="Сохранить" />
+            </td>
+        </tr>
+        }
+    </tbody>
+</table>
+
+<script>
+    function takeValue(id) {
+        var NormsCount = $('#txtNormsId-' + id).val();
+        var NormsWarehouseCount = $('#txtNormsWarehouseId-' + id).val();
+        axios.post('/Manager/PostNorms/' + id + "/" + NormsCount + '/' + NormsWarehouseCount, {
+        })
+            .then(function (response) {
+                //alert('Done');
+                console.log(response);
+            })
+            .catch(function (error) {
+                alert(error);
+            });
+    }
+</script>

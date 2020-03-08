@@ -1,0 +1,126 @@
+﻿@model PTVMou.Models.BattleCrew_ReservViewModel
+
+@{
+    ViewData["Title"] = "EditSubdivision";
+}
+
+<style>
+    input {
+        width: 50px;
+    }
+</style>
+
+<h2>Опись ПТВ</h2>
+
+<h4>@Model.Subdivision.Name</h4>
+<hr />
+<table class="table">
+    <thead>
+        <tr>
+            <th width="20">
+                #
+            </th>
+            <th width="150">
+                Наименование
+            </th>
+            <th width="50">
+                Мера
+            </th>
+            <th width="50" class="bg-danger">
+                Требуется по нормам
+            </th>
+            <th width="50" class="bg-danger">
+                Боевой расчет
+            </th>
+            <th width="50" class="bg-danger">
+                Потребность
+            </th>
+            <th width="50" class="bg-success">
+                Требуется по нормам
+            </th>
+            <th width="50"  class="bg-success">
+                Резерв
+            </th>
+            <th width="50"  class="bg-success">
+                Потребность
+            </th>
+            <th width="50"  class="bg-info">
+                Требуется по нормам
+            </th>
+            <th width="50" class="bg-info">
+                Склад
+            </th>
+            <th width="50" class="bg-info">
+                Потребность
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.PTV_Battle_Reserv_WarehouseViewModel.OrderBy(x => x.PTV.PTVId))
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PTV.PTVId)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PTV.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PTV.Measure)
+                </td>
+                <td class="bg-danger"><input disabled value="@item.BattleCrewView.CountNormal" id="norm-@item.PTV.PTVId" maxlength="3" style="width:50px;" type="text" /></td>
+                <td class="bg-danger"><input maxlength="4" value="0" onkeyup="conculatedBattle(@item.PTV.PTVId)" id="inputBattle-@item.PTV.PTVId" type="text" /></td>
+                <td class="bg-danger"><input disabled maxlength="4" id="resultBattle-@item.PTV.PTVId" type="text" /></td>
+                <td  class="bg-success"><input disabled maxlength="4" value="@item.ReservView.CountNormal" style="width:50px;" type="text" /></td>
+                <td  class="bg-success"><input maxlength="4" value="0" onkeyup="conculatedReserv(@item.PTV.PTVId)" id="inputReserv-@item.PTV.PTVId" type="text" /></td>
+                <td class="bg-success"><input disabled maxlength="4" id="resultReserv-@item.PTV.PTVId" type="text" /></td>
+                <td class="bg-info"><input disabled value="@item.WarehouseView.CountNormal"  maxlength="4" type="text" /></td>
+                <td class="bg-info"><input maxlength="3" value="0" type="text" /></td>
+                <td class="bg-info"><input disabled maxlength="4" type="text" /></td>
+                <td>
+                    <input type="button" onclick="takeValue(@item.PTV.PTVId)" class="btn-success" value="Сохранить" />
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<script>
+
+    function conculatedBattle(id) {
+        var summa = 0;
+        var need = Number($('#norm-' + id).val());
+        var count = Number($('#inputBattle-' + id).val());
+        summa = need - count;
+        document.getElementById('resultBattle-' + id).value = summa;
+    }
+
+    function conculatedReserv(id) {
+        var summa = 0;
+        var need = Number($('#norm-' + id).val());
+        var count = Number($('#inputReserv-' + id).val());
+        summa = need - count;
+        document.getElementById('resultReserv-' + id).value = summa;
+    }
+
+
+    function takeValue(PTVId) {
+        axios.post('/Manager/PostBReserv/' + @Model.Subdivision.SubdivisionId + "/"
+            + PTVId + "/" + $('#inputBattle-' + PTVId).val() + '/' + $('#resultBattle-' + PTVId).val() + '/'
+            + $('#inputReserv-' + PTVId).val() + '/' + $('#resultReserv-' + PTVId).val() + '/', {
+        })
+            .then(function (response) {
+                alert('Done');
+                console.log(response);
+            })
+            .catch(function (error) {
+                alert(error);
+            });
+    }
+</script>
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
