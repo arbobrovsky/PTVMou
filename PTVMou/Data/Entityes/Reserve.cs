@@ -10,6 +10,12 @@ namespace Data.Entityes
     {
         public int ReserveId { get; set; }
         public string Name { get; set; }
-        public IList<Warehouse_PTV> Warehouse_PTVs { get; set; }
+        public IList<ReservePTV> Reserve_PTVs { get; set; }
+
+        public Reserve()
+        {
+            Reserve_PTVs = new List<ReservePTV>();
+        }
+
     }
 }

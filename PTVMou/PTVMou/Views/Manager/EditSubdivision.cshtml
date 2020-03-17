@@ -5,7 +5,7 @@
 }
 
 <style>
-    input {
+    .inputSize {
         width: 50px;
     }
 </style>
@@ -14,16 +14,17 @@
 
 <h4>@Model.Subdivision.Name</h4>
 <hr />
-<table class="table">
+<table border="1" id="table" class="table table-hover">
     <thead>
         <tr>
             <th width="20">
                 #
             </th>
-            <th width="150">
+            <th width="50">
+                <input id="search" type="search" placeholder="Поиск" class="form-control" />
                 Наименование
             </th>
-            <th width="50">
+            <th width="40">
                 Мера
             </th>
             <th width="50" class="bg-danger">
@@ -38,13 +39,13 @@
             <th width="50" class="bg-success">
                 Требуется по нормам
             </th>
-            <th width="50"  class="bg-success">
+            <th width="50" class="bg-success">
                 Резерв
             </th>
-            <th width="50"  class="bg-success">
+            <th width="50" class="bg-success">
                 Потребность
             </th>
-            <th width="50"  class="bg-info">
+            <th width="50" class="bg-info">
                 Требуется по нормам
             </th>
             <th width="50" class="bg-info">
@@ -69,17 +70,17 @@
                 <td>
                     @Html.DisplayFor(modelItem => item.PTV.Measure)
                 </td>
-                <td class="bg-danger"><input disabled value="@item.BattleCrewView.CountNormal" id="norm-@item.PTV.PTVId" maxlength="3" style="width:50px;" type="text" /></td>
-                <td class="bg-danger"><input maxlength="4" value="0" onkeyup="conculatedBattle(@item.PTV.PTVId)" id="inputBattle-@item.PTV.PTVId" type="text" /></td>
-                <td class="bg-danger"><input disabled maxlength="4" id="resultBattle-@item.PTV.PTVId" type="text" /></td>
-                <td  class="bg-success"><input disabled maxlength="4" value="@item.ReservView.CountNormal" style="width:50px;" type="text" /></td>
-                <td  class="bg-success"><input maxlength="4" value="0" onkeyup="conculatedReserv(@item.PTV.PTVId)" id="inputReserv-@item.PTV.PTVId" type="text" /></td>
-                <td class="bg-success"><input disabled maxlength="4" id="resultReserv-@item.PTV.PTVId" type="text" /></td>
-                <td class="bg-info"><input disabled value="@item.WarehouseView.CountNormal"  maxlength="4" type="text" /></td>
-                <td class="bg-info"><input maxlength="3" value="0" type="text" /></td>
-                <td class="bg-info"><input disabled maxlength="4" type="text" /></td>
+                <td class="bg-danger"><input class="inputSize" disabled value="@item.BattleCrewView.CountNormal" id="normBattle-@item.PTV.PTVId" maxlength="3" type="number" /></td>
+                <td class="bg-danger"><input class="inputSize" maxlength="4" value="@item.BattleCrewView.CountNow" onkeyup="conculatedBattle(@item.PTV.PTVId)" id="inputBattle-@item.PTV.PTVId" type="number" /></td>
+                <td class="bg-danger"><input class="inputSize" disabled maxlength="4" id="resultBattle-@item.PTV.PTVId" value="@item.BattleCrewView.CountEnd" type="number" /></td>
+                <td class="bg-success"><input class="inputSize" disabled maxlength="4" value="@item.ReservView.CountNormal" id="normReserv-@item.PTV.PTVId" type="number" /></td>
+                <td class="bg-success"><input class="inputSize" maxlength="4" value="@item.ReservView.CountNow" onkeyup="conculatedReserv(@item.PTV.PTVId)" id="inputReserv-@item.PTV.PTVId" type="number" /></td>
+                <td class="bg-success"><input class="inputSize" disabled maxlength="4" value="@item.ReservView.CountEnd" id="resultReserv-@item.PTV.PTVId" type="text" /></td>
+                <td class="bg-info"><input class="inputSize" disabled maxlength="4" value="@item.WarehouseView.CountNormal" id="normWarehouse-@item.PTV.PTVId" type="number" /></td>
+                <td class="bg-info"><input class="inputSize" maxlength="4" value="@item.WarehouseView.CountNow" onkeyup="conculatedWarehouse(@item.PTV.PTVId)" id="inputWarehouse-@item.PTV.PTVId" type="number" /></td>
+                <td class="bg-info"><input class="inputSize" disabled maxlength="4" type="number" value="@item.WarehouseView.CountEnd" id="resultWarehouse-@item.PTV.PTVId" /></td>
                 <td>
-                    <input type="button" onclick="takeValue(@item.PTV.PTVId)" class="btn-success" value="Сохранить" />
+                    <button onclick="takeValue(@item.PTV.PTVId)" class="btn-success">Сохранить</button>
                 </td>
             </tr>
         }
@@ -87,10 +88,25 @@
 </table>
 
 <script>
+  
+    $(document).ready(function () {
+        $("#search").keyup(function () {
+            _this = this;
+            $.each($("#table tbody tr"), function () {
+                if ($(this).text().toLowerCase().indexOf($(_this).val().toLowerCase()) === -1)
+                    $(this).hide();
+                else
+                    $(this).show();
+            });
+        });
+    });
+
+  
+
 
     function conculatedBattle(id) {
         var summa = 0;
-        var need = Number($('#norm-' + id).val());
+        var need = Number($('#normBattle-' + id).val());
         var count = Number($('#inputBattle-' + id).val());
         summa = need - count;
         document.getElementById('resultBattle-' + id).value = summa;
@@ -98,17 +114,26 @@
 
     function conculatedReserv(id) {
         var summa = 0;
-        var need = Number($('#norm-' + id).val());
+        var need = Number($('#normReserv-' + id).val());
         var count = Number($('#inputReserv-' + id).val());
         summa = need - count;
         document.getElementById('resultReserv-' + id).value = summa;
     }
 
+    function conculatedWarehouse(id) {
+        var summa = 0;
+        var need = Number($('#normWarehouse-' + id).val());
+        var count = Number($('#inputWarehouse-' + id).val());
+        summa = need - count;
+        document.getElementById('resultWarehouse-' + id).value = summa;
+    }
+
 
     function takeValue(PTVId) {
-        axios.post('/Manager/PostBReserv/' + @Model.Subdivision.SubdivisionId + "/"
+        axios.post('/Manager/PostBRW/' + @Model.Subdivision.SubdivisionId + "/"
             + PTVId + "/" + $('#inputBattle-' + PTVId).val() + '/' + $('#resultBattle-' + PTVId).val() + '/'
-            + $('#inputReserv-' + PTVId).val() + '/' + $('#resultReserv-' + PTVId).val() + '/', {
+            + $('#inputReserv-' + PTVId).val() + '/' + $('#resultReserv-' + PTVId).val() + '/'
+            + $('#inputWarehouse-' + PTVId).val() + '/' + $('#resultWarehouse-' + PTVId).val() + '/', {
         })
             .then(function (response) {
                 alert('Done');
@@ -118,6 +143,9 @@
                 alert(error);
             });
     }
+
+
+
 </script>
 
 

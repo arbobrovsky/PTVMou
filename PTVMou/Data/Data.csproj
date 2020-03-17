@@ -223,10 +223,11 @@
     <Compile Include="EFDBContext.cs" />
     <Compile Include="Entityes\BattleСrew.cs" />
     <Compile Include="Entityes\BattleСrew_PTV.cs" />
-    <Compile Include="Entityes\Category.cs" />
+    <Compile Include="Entityes\Categoryes.cs" />
     <Compile Include="Entityes\Department.cs" />
     <Compile Include="Entityes\Norms.cs" />
     <Compile Include="Entityes\NormsWarehouse.cs" />
+    <Compile Include="Entityes\Norms_PTV.cs" />
     <Compile Include="Entityes\PTV.cs" />
     <Compile Include="Entityes\Reserve.cs" />
     <Compile Include="Entityes\ReservePTV.cs" />
@@ -277,6 +278,30 @@
     <Compile Include="Migrations\20200307160910_add WarehouseCounstProcent.cs" />
     <Compile Include="Migrations\20200307160910_add WarehouseCounstProcent.designer.cs">
       <DependentUpon>20200307160910_add WarehouseCounstProcent.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\20200309180521_delete all.cs" />
+    <Compile Include="Migrations\20200309180521_delete all.designer.cs">
+      <DependentUpon>20200309180521_delete all.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\20200309180653_NormsWithCategory.cs" />
+    <Compile Include="Migrations\20200309180653_NormsWithCategory.designer.cs">
+      <DependentUpon>20200309180653_NormsWithCategory.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\20200309181133_NormsWithCategoryAndWarehouse.cs" />
+    <Compile Include="Migrations\20200309181133_NormsWithCategoryAndWarehouse.designer.cs">
+      <DependentUpon>20200309181133_NormsWithCategoryAndWarehouse.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\20200309182933_EditFails.cs" />
+    <Compile Include="Migrations\20200309182933_EditFails.designer.cs">
+      <DependentUpon>20200309182933_EditFails.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\20200309184345_EditFails part 2.cs" />
+    <Compile Include="Migrations\20200309184345_EditFails part 2.designer.cs">
+      <DependentUpon>20200309184345_EditFails part 2.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\20200310174419_EditFails part 3.cs" />
+    <Compile Include="Migrations\20200310174419_EditFails part 3.designer.cs">
+      <DependentUpon>20200310174419_EditFails part 3.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\EFDBContextModelSnapshot.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

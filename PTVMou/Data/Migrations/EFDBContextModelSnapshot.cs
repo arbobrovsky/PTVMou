@@ -53,15 +53,15 @@ namespace Data.Migrations
                     b.ToTable("BattleСrew_PTV");
                 });
 
-            modelBuilder.Entity("Data.Entityes.Category", b =>
+            modelBuilder.Entity("Data.Entityes.Categoryes", b =>
                 {
-                    b.Property<int>("CategoryId")
+                    b.Property<int>("CategoryesId")
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("TypeDeparmen");
 
-                    b.HasKey("CategoryId");
+                    b.HasKey("CategoryesId");
 
                     b.ToTable("Category");
                 });
@@ -87,15 +87,34 @@ namespace Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("NormsCount");
-
-                    b.Property<int>("PTVId");
-
-                    b.Property<decimal>("WarehouseCount");
+                    b.Property<int>("CategoryesId");
 
                     b.HasKey("NormsId");
 
                     b.ToTable("Norms");
+                });
+
+            modelBuilder.Entity("Data.Entityes.Norms_PTV", b =>
+                {
+                    b.Property<int>("Norms_PTVId")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("NormsCount");
+
+                    b.Property<int>("NormsId");
+
+                    b.Property<bool>("OnCar");
+
+                    b.Property<int>("PTVId");
+
+                    b.Property<decimal>("WarehouseNormsCount");
+
+                    b.HasKey("Norms_PTVId");
+
+                    b.HasIndex("NormsId");
+
+                    b.ToTable("Norms_PTVs");
                 });
 
             modelBuilder.Entity("Data.Entityes.PTV", b =>
@@ -155,6 +174,8 @@ namespace Data.Migrations
 
                     b.Property<int>("BattleСrewId");
 
+                    b.Property<int>("CategoryesId");
+
                     b.Property<int>("CountCarInBattleCrew");
 
                     b.Property<int>("DepartmentId");
@@ -165,13 +186,19 @@ namespace Data.Migrations
 
                     b.Property<int?>("ReserveId");
 
+                    b.Property<int>("WarehouseId");
+
                     b.HasKey("SubdivisionId");
 
                     b.HasIndex("BattleСrewId");
 
+                    b.HasIndex("CategoryesId");
+
                     b.HasIndex("DepartmentId");
 
                     b.HasIndex("ReserveId");
+
+                    b.HasIndex("WarehouseId");
 
                     b.ToTable("Subdivision");
                 });
@@ -222,6 +249,14 @@ namespace Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
+            modelBuilder.Entity("Data.Entityes.Norms_PTV", b =>
+                {
+                    b.HasOne("Data.Entityes.Norms", "Norms")
+                        .WithMany("Norms_PTVs")
+                        .HasForeignKey("NormsId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
             modelBuilder.Entity("Data.Entityes.ReservePTV", b =>
                 {
                     b.HasOne("Data.Entityes.Reserve", "Reserve")
@@ -237,6 +272,11 @@ namespace Data.Migrations
                         .HasForeignKey("BattleСrewId")
                         .OnDelete(DeleteBehavior.Cascade);
 
+                    b.HasOne("Data.Entityes.Categoryes", "Categoryes")
+                        .WithMany()
+                        .HasForeignKey("CategoryesId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
                     b.HasOne("Data.Entityes.Department", "Department")
                         .WithMany("Subdivision")
                         .HasForeignKey("DepartmentId")
@@ -245,12 +285,17 @@ namespace Data.Migrations
                     b.HasOne("Data.Entityes.Reserve", "Reserve")
                         .WithMany()
                         .HasForeignKey("ReserveId");
+
+                    b.HasOne("Data.Entityes.Warehouse", "Warehouse")
+                        .WithMany()
+                        .HasForeignKey("WarehouseId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("Data.Entityes.Warehouse_PTV", b =>
                 {
                     b.HasOne("Data.Entityes.Reserve")
-                        .WithMany("Warehouse_PTVs")
+                        .WithMany("Reserve_PTVs")
                         .HasForeignKey("ReserveId");
 
                     b.HasOne("Data.Entityes.Warehouse", "Warehouse")

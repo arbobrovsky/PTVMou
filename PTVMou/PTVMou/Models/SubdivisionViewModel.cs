@@ -10,7 +10,10 @@ namespace PTVMou.Models
     {
         public int SubdivisionId { get; set; }
         public string Name { get; set; }
+        public int CountCar { get; set; }
         public int DepartmentId { get; set; }
+        public int CategoryesId { get; set; }
+        public List<Categoryes> Categoryes { get; set; }
         public virtual List<Department> Departments { get; set; }
     }
 }

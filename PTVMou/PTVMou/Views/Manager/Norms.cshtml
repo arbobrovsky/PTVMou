@@ -1,74 +1,36 @@
-﻿@model IEnumerable<PTVMou.Models.NormsViewModel>
+﻿@model IEnumerable<PTVMou.Models.NormsSubDivisionViewModels>
 
 @{
     ViewData["Title"] = "Norms";
 }
 
-<h2>Norms</h2>
+<h2>Классификация по нормам</h2>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
 <table class="table">
     <thead>
         <tr>
-            <th width="50">
-                #
+            <th>
+                @Html.DisplayNameFor(model => model.NormsId)
             </th>
-            <th width="50">
-                Наименование
-            </th>
-            <th width="50">
-                Единица измерения
-            </th>
-            <th width="50">
-               Нормы по БР/резерв
-            </th>
-            <th width="50">
-                Нормы по складу
+            <th>
+                Категория подразделения
             </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-        @foreach (var item in Model.OrderBy(x => x.PTV.PTVId))
-        {
+@foreach (var item in Model) {
         <tr>
             <td>
-                @item.PTV.PTVId
+                @Html.DisplayFor(modelItem => item.NormsId)
             </td>
             <td>
-                @item.PTV.Name
+                @Html.DisplayFor(modelItem => item.Categoryes.TypeDeparmen)
             </td>
             <td>
-                @item.PTV.Measure
-            </td>
-            <td>
-                <input id="txtNormsId-@item.PTV.PTVId" style="width:35px;" type="text" value="@item.NormCount" />
-            </td>
-            <td>
-                <input id="txtNormsWarehouseId-@item.PTV.PTVId" style="width:35px;" type="text" value="@item.WarehouseCount" />
-            </td>
-            <td>
-                <input type="button" onclick="takeValue(@item.PTV.PTVId)" class="btn-success" value="Сохранить" />
+                <a asp-controller="Manager" asp-action="NormEdit/@item.NormsId">Изменить</a> 
             </td>
         </tr>
-        }
+}
     </tbody>
 </table>
-
-<script>
-    function takeValue(id) {
-        var NormsCount = $('#txtNormsId-' + id).val();
-        var NormsWarehouseCount = $('#txtNormsWarehouseId-' + id).val();
-        axios.post('/Manager/PostNorms/' + id + "/" + NormsCount + '/' + NormsWarehouseCount, {
-        })
-            .then(function (response) {
-                //alert('Done');
-                console.log(response);
-            })
-            .catch(function (error) {
-                alert(error);
-            });
-    }
-</script>

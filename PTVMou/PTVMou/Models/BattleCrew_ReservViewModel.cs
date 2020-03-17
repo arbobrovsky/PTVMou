@@ -22,22 +22,25 @@ namespace PTVMou.Models
 
     }
 
-    public class BattleCrewView 
+    public class BattleCrewView : Settings 
     {
-        public int CountNormal { get; set; }
-        public int CountNow { get; set; }
+
     }
 
-    public class WarehouseView 
+    public class Settings
     {
         public int CountNormal { get; set; }
         public int CountNow { get; set; }
+        public int CountEnd { get; set; }
     }
 
-    public class ReservView 
+    public class WarehouseView :Settings
     {
-        public int CountNormal { get; set; }
-        public int CountNow { get; set; }
+
+    }
+
+    public class ReservView : Settings
+    {
     }
 
 }

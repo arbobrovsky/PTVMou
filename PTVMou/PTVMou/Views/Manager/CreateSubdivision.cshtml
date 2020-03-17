@@ -4,23 +4,32 @@
     ViewData["Title"] = "CreateSubdivision";
 }
 
-<h2>CreateSubdivision</h2>
+<h2>Создать подразделение</h2>
 
-<h4>SubdivisionViewModel</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
         <form asp-action="CreateSubdivision">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                <input type="hidden" asp-for="SubdivisionId" class="form-control" />
+            <input type="hidden" asp-for="SubdivisionId" class="form-control" />
             <div class="form-group">
-                <label asp-for="Name" class="control-label"></label>
+                <label  class="control-label">Наименование подразделения</label>
                 <input asp-for="Name" class="form-control" />
                 <span asp-validation-for="Name" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="DepartmentId" class="control-label"></label>
-                <select name="DepartmentId" asp-for="@Model.DepartmentId" class="uk-select" asp-items="@(new SelectList (Model.Departments,"DepartmentId","Name"))"></select>
+                <label  class="control-label">Количество АЦ</label>
+                <input asp-for="CountCar" class="form-control" />
+                <span asp-validation-for="CountCar" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label class="control-label">Тип подразделения</label>
+                <select name="CategoryesId" asp-for="@Model.CategoryesId" class="form-control" asp-items="@(new SelectList (Model.Categoryes,"CategoryesId","TypeDeparmen"))"></select>
+                <span asp-validation-for="CategoryesId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label  class="control-label">Гарнизон</label>
+                <select name="DepartmentId" asp-for="@Model.DepartmentId" class="form-control" asp-items="@(new SelectList (Model.Departments,"DepartmentId","Name"))"></select>
                 <span asp-validation-for="DepartmentId" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -31,7 +40,7 @@
 </div>
 
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="SubDivisions">Вернуться к списку</a>
 </div>
 
 @section Scripts {

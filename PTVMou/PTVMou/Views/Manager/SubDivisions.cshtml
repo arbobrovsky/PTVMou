@@ -1,0 +1,66 @@
+﻿@model IEnumerable<Data.Entityes.Subdivision>
+
+@{
+    ViewData["Title"] = "SubDivisions";
+}
+
+<h2>Подразделения: @Model.FirstOrDefault().Department.Name</h2>
+
+<p>
+    <a asp-action="CreateSubdivision">Создать новое подразделение</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th width="50">
+                @Html.DisplayNameFor(model => model.SubdivisionId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th>
+               Категория подразделения
+            </th>
+            <th>
+             Количество АЦ
+            </th>
+            <th>
+               Гарнизон
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.SubdivisionId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Categoryes.TypeDeparmen)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CountCarInBattleCrew)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Department.Name)
+            </td>
+            @*<td>
+                @Html.DisplayFor(modelItem => item.BattleСrewId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ReservId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.WarehouseId)
+            </td>*@
+            <td>
+               <a asp-action="EditSubdivision/@item.SubdivisionId" asp-controller="Manager">Изменить</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

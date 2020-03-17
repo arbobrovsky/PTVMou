@@ -16,7 +16,6 @@ namespace Data
 
         public DbSet<BattleСrew> BattleСrew { get; set; }
         public DbSet<BattleСrew_PTV> BattleСrew_PTV { get; set; }
-        public DbSet<Category> Category { get; set; }
         public DbSet<Department> Department { get; set; }
         public DbSet<PTV> PTV { get; set; }
         public DbSet<Reserve> Reserve { get; set; }
@@ -25,5 +24,7 @@ namespace Data
         public DbSet<Warehouse> Warehouse { get; set; }
         public DbSet<Warehouse_PTV> Warehouse_PTV { get; set; }
         public DbSet<Norms> Norms { get; set; }
+        public DbSet<Norms_PTV> Norms_PTVs { get; set; }
+        public DbSet<Categoryes> Category { get; set; }
     }
 }

@@ -1,0 +1,103 @@
+﻿@model PTVMou.Models.NormsViewModel
+
+@{
+    ViewData["Title"] = "NormEdit";
+}
+
+<h4>Редактирование норм @Model.Categoryes.TypeDeparmen</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <input type="hidden" asp-for="CategoryesId" class="form-control" />
+
+    </div>
+</div>
+<table class="table">
+    <thead>
+        <tr>
+            <th width="50">
+                #
+            </th>
+            <th width="50">
+                Наименование
+            </th>
+            <th width="50">
+                Единица измерения
+            </th>
+            <th width="50">
+                Нормы по БР/резерв
+            </th>
+            <th width="250">
+                Нормы по складу
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.NormsPTV.OrderBy(x => x.PTV.PTVId))
+        {
+            <tr>
+                <td>
+                    @item.PTV.PTVId
+                </td>
+                <td>
+                    @item.PTV.Name
+                </td>
+                <td>
+                    @item.PTV.Measure
+                </td>
+                <td>
+                    <input id="txtNormsId-@item.Norms_PTVId" style="width:35px;" type="text" value="@item.NormsCount" />
+                </td>
+                <td>
+                    <ul class="list-inline">
+                        <li>
+                            <input id="txtNormsWarehouseId-@item.Norms_PTVId" style="width:50px;" type="text" value="@item.WarehouseNormsCount" />
+                        </li>
+                        <li>
+                            <input type="checkbox" name="OnCar" id="checkOnCar-@item.Norms_PTVId" value="@item.OnCar" @(item.OnCar == true ? "checked=\"checked\"" : "") />
+                            Потребность на отделение
+
+                        </li>
+                    </ul>
+                </td>
+                <td>
+                    <input type="button" onclick="takeValue(@item.Norms_PTVId)" class="btn-success" value="Сохранить" />
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+<script>
+    function takeValue(id) {
+        var NormsCount = $('#txtNormsId-' + id).val();
+        var NormsWarehouseCount = $('#txtNormsWarehouseId-' + id).val();
+        var onCar = false;
+        if ($("#checkOnCar-" + id).is(":checked")) {
+            onCar = true;
+        } else {
+            onCar = false;
+           
+        } 
+       // alert(onCar);
+            axios.post('/Manager/PostNorms/' + id + "/" + NormsCount + '/' + NormsWarehouseCount + "/" + onCar, {
+            })
+                .then(function (response) {
+                    //alert('Done');
+                    console.log(response);
+                })
+                .catch(function (error) {
+                    alert(error);
+                });
+    }
+</script>
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
